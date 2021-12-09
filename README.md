@@ -19,8 +19,19 @@ pip install pillow==7.0.0 scipy==1.2.1 tqdm==4.43.0 munch==2.5.0
 ```
 # Use the current model on your own images
 
+The current model is saved in expr_256/checkpoints/. The existing model is trained on skull-stripped images sized of 256x256x256, which are resampled from MNI152 template (182x218x182). That is: all images were first registered to MNI152 templated, skull-stripped, and then resampled to 256x256x256. If users want to use the current model, please register and resize the images in the same way.
+
+To resize the registered image, please use the script below, where ID_list.txt is the input nii images without .nii.gz extentions
+
 ```
-harmonize_images.sh demo/ref/ukbb_6025520_t1_final_mask_ds.nii.gz demo/input_nii/ demo/output/ expr_256/
+resize_nii_256.sh path/to/input/nii path/to/resized/nii ID_list.txt
+```
+
+Put all resized nii images to be harmonized into a folder (say demo/input_nii here). Select a reference image (say demo/ref/00210_t1_final_mask_ds.nii.gz here). Run the script below to harmonize all images.
+
+```
+activate style-harmonization
+harmonize_images.sh demo/ref/00210_t1_final_mask_ds.nii.gz demo/input_nii/ demo/output/ expr_256/
 ```
 
 
