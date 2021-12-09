@@ -20,7 +20,7 @@ pip install pillow==7.0.0 scipy==1.2.1 tqdm==4.43.0 munch==2.5.0
 # Use the current model on your own images
 
 ```
-harmonize_images.sh /ifs/loni/faculty/hkim/mengting/harmonization/test/ref/ukbb_6025520_t1_final_mask_ds.nii.gz /ifs/loni/faculty/hkim/mengting/harmonization/test/input_nii/ /ifs/loni/faculty/hkim/mengting/harmonization/test/output/ /ifs/loni/faculty/hkim/mengting/harmonization/stargan-v2-master/expr_256
+harmonize_images.sh demo/ref/ukbb_6025520_t1_final_mask_ds.nii.gz demo/input_nii/ demo/output/ expr_256/
 ```
 
 
@@ -39,7 +39,7 @@ export CUDA_VISIBLE_DEVICES=3
 
 Train the model using the slices just created
 ```
-python main.py --mode train --lambda_reg 1 --lambda_sty 1 --lambda_ds 1 --lambda_cyc 100 --ds_iter 200000 --total_iters 200000 --eval_every 20000 --train_img_dir demo/train_slices --val_img_dir demo/val_slices --sample_every 5000 --sample_dir expr_customer/samples --checkpoint_dir expr_customer/checkpoints --batch_size 4
+python main.py --mode train --lambda_reg 1 --lambda_sty 1 --lambda_ds 1 --lambda_cyc 100 --ds_iter 200000 --total_iters 200000 --eval_every 200000 --train_img_dir demo/train_slices --val_img_dir demo/val_slices --sample_every 5000 --sample_dir expr_customer/samples --checkpoint_dir expr_customer/checkpoints --batch_size 4
 ```
 
 
