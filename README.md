@@ -13,7 +13,7 @@ conda create -n style-harmonization python=3.6.7
 conda activate style-harmonization
 conda install -y pytorch=1.4.0 torchvision=0.5.0 cudatoolkit=10.0 -c pytorch 
 conda install x264=='1!152.20180717' ffmpeg=4.0.2 -c conda-forge 
-conda install –c conda-forge nibabel
+conda install -c conda-forge nibabel
 pip install opencv-python==4.1.2.30 ffmpeg-python==0.2.0 scikit-image==0.16.2 
 pip install pillow==7.0.0 scipy==1.2.1 tqdm==4.43.0 munch==2.5.0
 ```
@@ -40,7 +40,7 @@ activate style-harmonization
 harmonize_images.sh demo/ref/00210_t1_final_mask_ds.nii.gz demo/input_nii/ demo/output/ expr_256/
 ```
 
-The trained model is in /expr_256/checkpoints/, if you cannot download the model due to its large size, please use our dropbox link below to download the model, and move them to the expr_256/checkpoints/ folder.
+The trained model is in /expr_256/checkpoints/, if you cannot download the model due to its large size, please use our dropbox link below to download the model, and move them to the expr_256/checkpoints/ folder to replace the original files.
 https://www.dropbox.com/sh/d60gvw7h21748d2/AADCVfKjCOONG2AodL7Lv5Bca?dl=0
 
 # Train a new model using your own images
