@@ -40,7 +40,7 @@ activate style-harmonization
 harmonize_images.sh demo/ref/00210_t1_final_mask_ds.nii.gz demo/input_nii/ demo/output/ expr_256/
 ```
 
-The trained model is in /expr_256/checkpoints/, if you cannot download the model due to its large size, please use our dropbox link below to download the model, and move them to the expr_256/checkpoints/ folder to replace the original files.
+The trained model is in /expr_256/checkpoints/, due to the size of the model is larger than the upload limit of the github, you will find the model in folder is only 3 bit in size, which is not correct. Please use our dropbox link below to download the model, and move them to the expr_256/checkpoints/ folder to replace the original files.
 https://www.dropbox.com/sh/d60gvw7h21748d2/AADCVfKjCOONG2AodL7Lv5Bca?dl=0
 
 # Train a new model using your own images
