@@ -1,66 +1,105 @@
-# style_transfer_harmonization
+# Style Transfer Harmonization
+
 ![image](https://github.com/bigting84/style_transfer_harmonization/blob/main/represent_pictures/video_ref1.gif)
 
-# Paper
-MICCAI: https://link.springer.com/chapter/10.1007/978-3-030-87199-4_30
+Paper: [Style Transfer Using Generative Adversarial Networks for Multi-site MRI Harmonization](https://link.springer.com/chapter/10.1007/978-3-030-87199-4_30)
 
-ABSTRACT:
-Large data initiatives and high-powered brain imaging analyses require the pooling of MR images acquired across multiple scanners, often using different protocols. Prospective cross-site harmonization often involves the use of a phantom or traveling subjects. However, as more datasets are becoming publicly available, there is a growing need for retrospective harmonization, pooling data from sites not originally coordinated together. Several retrospective harmonization techniques have shown promise in removing cross-site image variation. However, most unsupervised methods cannot distinguish between image-acquisition based variability and cross-site population variability, so they require that datasets contain subjects or patient groups with similar clinical or demographic information. To overcome this limitation, we consider cross-site MRI image harmonization as a style transfer problem rather than a domain transfer problem. Using a fully unsupervised deep-learning framework based on a generative adversarial network (GAN), we show that MR images can be harmonized by inserting the style information encoded from a reference image directly, without knowing their site/scanner labels a priori. We trained our model using data from five large-scale multi-site datasets with varied demographics. Results demonstrated that our style-encoding model can harmonize MR images, and match intensity profiles, successfully, without relying on traveling subjects. This model also avoids the need to control for clinical, diagnostic, or demographic information. Moreover, we further demonstrated that if we included diverse enough images into the training set, our method successfully harmonized MR images collected from unseen scanners and protocols, suggesting a promising novel tool for ongoing collaborative studies.
+Multi-site MRI data often exhibits variations in image appearance due to differences in imaging protocols, scanner hardware, and acquisition parameters. The paper presents a novel approach leveraging Generative Adversarial Networks (GANs) for MRI harmonization. By adapting the style of MRI images from one site to match the style of another, we aim to reduce inter-site variability and improve the generalizability of MRI-based models.
 
-# Environment installation
+## Table of Contents
+
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Environment Setup](#environment-setup)
+- [Usage](#usage)
+  - [Pretrained Model](#pretrained-model)
+  - [Training Networks](#training-networks)
+
+## Getting Started  
+
+To begin, proceed with cloning this repository. Within this repository, you will find both the source code and the pre-trained model, as detailed within the paper.
+
+The pre-trained model is stored within the `/expr_256/checkpoints/` directory. However, due to GitHub's file size limitations, we have included only a partial version of the model. To obtain the complete set of model files, please refer to the following external link: [Complete Model Files](https://www.dropbox.com/sh/d60gvw7h21748d2/AADCVfKjCOONG2AodL7Lv5Bca?dl=0).
+
+After accessing the files, replace the existing files in the `/expr_256/checkpoints/` directory with the newly downloaded files. 
+
+### Prerequisites
+
+Clone this repository:
+
 ```
-conda create -n style-harmonization python=3.6.7 
+git clone https://github.com/USCLoBeS/style_transfer_harmonization.git
+cd style_transfer_harmonization/
+```
+The model is trained on skull-stripped images, registered to MNI152 template and resized to dimensions of `256 x 256 x 256`. In order to use the model, process the data to the following requirements.
+
+The `pre_process.sh` script processes the images to the following requirements. However, it requires **skull-stripped** images to function correctly. 
+
+**Note: The script uses `flirt` to process the data, please make sure to have it [installed](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation).**
+
+To registered and resize image, pass the input directory containing the images and the output directory to save images as arguments. 
+
+An Illustrative example is stored in `nii_MNI/`
+```
+sh pre_process.sh ./nii_MNI/raw ./nii_MNI/resampled 
+```
+
+### Environment Setup
+
+To begin using the model please install the required dependencies. Use the provided `ENV.yml` script to create and install the dependencies. Activate the environment once its created
+
+```
+conda env create -n style-harmonization --file ENV.yml
 conda activate style-harmonization
-conda install -y pytorch=1.4.0 torchvision=0.5.0 cudatoolkit=10.0 -c pytorch 
-conda install x264=='1!152.20180717' ffmpeg=4.0.2 -c conda-forge 
-conda install -c conda-forge nibabel
-pip install opencv-python==4.1.2.30 ffmpeg-python==0.2.0 scikit-image==0.16.2 
-pip install pillow==7.0.0 scipy==1.2.1 tqdm==4.43.0 munch==2.5.0
-```
-# Use the current model on your own images
-
-The current model is saved in expr_256/checkpoints/. The existing model is trained on skull-stripped images sized of 256x256x256, which are resampled from MNI152 template (182x218x182). That is: all images were first registered to MNI152 templated, skull-stripped, and then resampled to 256x256x256. If users want to use the current model, please register and resize the images in the same way.
-
-To resize the registered image, first is to add the library needed to the default library path. Go to the downloaded folder, then type in script below.
-
-```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./lib
 ```
 
-Then please use the illustrative script below, (resize_nii_256.sh path/to/input/nii path/to/resized/nii ID_list.txt), where ID_list.txt is the input nii images without .nii.gz extentions. A illustrative example is saved in nii_MNI/ 
+## Usage
+You can use the pretrained model or train the model on your own data. Please refer to the following sections as per your requirements.
+
+### Pretrained Model
+
+To use the pretrained model, run the `harmonize_images.sh` file with the following paths:
+
+> - Single Reference Image
+> - Input Images Directory
+> - Output Directory
+> - The Model checkpoints
+
+**Note: The Input and Reference images must be pre-processed prior to using the model**
 
 ```
-resize_nii_256.sh nii_MNI/raw nii_MNI/resampled nii_MNI/ID_list.txt
-```
-
-Put all resized nii images to be harmonized into a folder (say demo/input_nii here). Select a reference image (say demo/ref/00210_t1_final_mask_ds.nii.gz here). Run the script below to harmonize all images.
-
-```
-activate style-harmonization
 harmonize_images.sh demo/ref/00210_t1_final_mask_ds.nii.gz demo/input_nii/ demo/output/ expr_256/
 ```
 
-The trained model is in /expr_256/checkpoints/, due to the size of the model is larger than the upload limit of the github, you will find the model in folder is only 3 bit in size, which is not correct. Please use our dropbox link below to download the model, and move them to the expr_256/checkpoints/ folder to replace the original files.
-https://www.dropbox.com/sh/d60gvw7h21748d2/AADCVfKjCOONG2AodL7Lv5Bca?dl=0
+### Training Networks 
 
-# Train a new model using your own images
+In order to train the model, please convert the images into slices. Create an input and a validation directory ans use the following commands to convert slices. 
 
-First put all nii images for training in a folder (say demo/train_nii), and nii images for testing in another folder (say demo/val_nii). Then convert images to slices and prepare the training set and validation set using the scripts below.
+| Flags         | Description                                   |
+| ------------- | --------------------------------------------- |
+| load_path     | The path to the input images                  |
+| save_path     | The path to store output slices               |
+
 ```
-python convert_nii_to_slices_train.py --load_path demo/train_nii --save_path demo/train_slices
+# Prepare Training slices
+python ./processing/convert_nii_to_slices_train.py --load_path demo/train_nii --save_path demo/train_slices
 
-python convert_nii_to_slices_train.py --load_path demo/val_nii --save_path demo/val_slices
+# Prepare Validation slices
+python ./processing/convert_nii_to_slices_train.py --load_path demo/val_nii --save_path demo/val_slices
 ```
-Select GPU
+
+
+To train the model from scratch, run the following commands. Generated images and network checkpoints will be stored in the `expr/samples` and `expr/checkpoints` directories, respectively.
+
 ```
 export CUDA_VISIBLE_DEVICES=3
+
+python main.py --mode train --lambda_reg 1 -lambda_sty 1 \
+            --lambda_ds 1 --lambda_cyc 100 --ds_iter 200000 --total_iters 200000 \
+            --eval_every 200000 --train_img_dir demo/train_slices \
+            --val_img_dir demo/val_slices --sample_every 5000 \
+            --sample_dir expr_customer/samples --checkpoint_dir expr_customer/checkpoints \
+            --batch_size 4
 ```
 
-Train the model using the slices just created
-```
-python main.py --mode train --lambda_reg 1 --lambda_sty 1 --lambda_ds 1 --lambda_cyc 100 --ds_iter 200000 --total_iters 200000 --eval_every 200000 --train_img_dir demo/train_slices --val_img_dir demo/val_slices --sample_every 5000 --sample_dir expr_customer/samples --checkpoint_dir expr_customer/checkpoints --batch_size 4
-```
-
-
-
-
+    

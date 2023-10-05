@@ -167,7 +167,7 @@ def translate_using_reference_2(nets, args, x_src, x_ref, y_ref, filename):
     #io.savemat(harmname, mdic)
     #save_image(x_concat2, 3, filename)
     np.save(harmname, x_concat_np)
-    del x_concat, x_concat2, x_concat_np, msrc#, mdic
+    del x_concat, x_concat2, x_concat_np #, msrc#, mdic
 
 @torch.no_grad()
 def translate_using_reference_3(nets, args, x_src, x_ref, y_ref, filename):
