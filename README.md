@@ -73,7 +73,7 @@ harmonize_images.sh demo/ref/00210_t1_final_mask_ds.nii.gz demo/input_nii/ demo/
 
 ### Training Networks 
 
-In order to train the model, please convert the images into slices. Create an input and a validation directory ans use the following commands to convert slices. 
+In order to train the model, please convert the images into slices. Create an input and a validation directory and use the following commands to convert slices. 
 
 | Flags         | Description                                   |
 | ------------- | --------------------------------------------- |
