@@ -2,8 +2,6 @@
 
 ![image](represent_pictures/video_ref1.gif)
 
-Paper: [Style Transfer Using Generative Adversarial Networks for Multi-site MRI Harmonization](https://link.springer.com/chapter/10.1007/978-3-030-87199-4_30)
-
 Multi-site MRI data often exhibits variations in image appearance due to differences in imaging protocols, scanner hardware, and acquisition parameters. The paper presents a novel approach leveraging Generative Adversarial Networks (GANs) for MRI harmonization. By adapting the style of MRI images from one site to match the style of another, we aim to reduce inter-site variability and improve the generalizability of MRI-based models.
 
 ## Table of Contents
@@ -14,6 +12,7 @@ Multi-site MRI data often exhibits variations in image appearance due to differe
 - [Usage](#usage)
   - [Pretrained Model](#pretrained-model)
   - [Training Networks](#training-networks)
+- [Acknowledgements](#acknowledgements)
 
 ## Getting Started
 
@@ -103,3 +102,13 @@ python main.py --mode train --lambda_reg 1 -lambda_sty 1 \
             --sample_dir expr_customer/samples --checkpoint_dir expr_customer/checkpoints \
             --batch_size 4
 ```
+
+### If you use this code, please cite the following papers:
+1. Liu M, Maiti P, Thomopoulos S, Zhu A, Chai Y, Kim H, Jahanshad N. Style Transfer Using Generative Adversarial Networks for Multi-Site MRI Harmonization. Med Image Comput Comput Assist Interv. 2021 Sep-Oct;12903:313-322. doi: 10.1007/978-3-030-87199-4_30. Epub 2021 Sep 21. PMID: 35647615; PMCID: PMC9137427. https://pmc.ncbi.nlm.nih.gov/articles/PMC9137427/
+2. Liu M, Zhu AH, Maiti P, Thomopoulos SI, Gadewar S, Chai Y, Kim H, Jahanshad N, Alzheimer's Disease Neuroimaging Initiative. Style transfer generative adversarial networks to harmonize multisite MRI to a single reference image to avoid overcorrection. Human Brain Mapping. 2023 Oct 1;44(14):4875-92. https://doi.org/10.1002/hbm.26422
+
+### Acknowledgements
+We thank the following organizations and individuals, along with all others whose support made this study possible:
+
+* Images reproduced by kind permission of UK Biobank<sup>©</sup>
+* Data were provided [in part] by **OASIS-1: Cross-Sectional** (Principal Investigators: D. Marcus, R. Buckner, J. Csernansky, J. Morris). Funding provided by: P50 AG05681, P01 AG03991, P01 AG026276, R01 AG021910, P20 MH071616, U24 RR021382.
